@@ -20,7 +20,7 @@ namespace SpriteAnimations
 
         /// <summary>
         /// The current animation associated with the performer. Note that
-        /// the performer may have a current animation set but may not be 
+        /// the performer may have a current animation set but may not be
         /// playing it.
         /// </summary>
         protected SpriteAnimation _currentAnimation;
@@ -31,7 +31,7 @@ namespace SpriteAnimations
         protected bool _isPlaying = false;
 
         /// <summary>
-        /// List of frames used by the current cycle  
+        /// List of frames used by the current cycle
         /// </summary>
         protected Cycle _currentCycle;
 
@@ -49,9 +49,9 @@ namespace SpriteAnimations
         protected Dictionary<string, UnityAction<Frame>> _frameIdActions = new();
         protected UnityAction _onEndAction;
 
-        #endregion       
+        #endregion
 
-        #region Properties  
+        #region Properties
 
         public SpriteAnimator Animator { get => _animator; set => _animator = value; }
         protected bool HasCurrentAnimation => _currentAnimation != null;
@@ -59,7 +59,7 @@ namespace SpriteAnimations
 
         #endregion
 
-        #region Getters 
+        #region Getters
 
         /// <summary>
         /// Current cycle being played
@@ -102,7 +102,7 @@ namespace SpriteAnimations
 
         #endregion
 
-        #region Logic       
+        #region Logic
 
         /// <summary>
         /// Starts the given sprite animation.
@@ -125,6 +125,8 @@ namespace SpriteAnimations
             // Clear the frame ID actions
             _frameIdActions.Clear();
 
+            // instead of adding a new event for interruption, I'll just fire the onEnd event on any type of animation end
+            _onEndAction?.Invoke();
             // Set the on end action to null
             _onEndAction = null;
 
